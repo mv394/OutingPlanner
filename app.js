@@ -58,15 +58,12 @@ function loadCustomOptions() {
   if (!group) return;
 
             if (change.type === "added") {
-      // avoid duplicates
-   const existing = [...group.querySelectorAll("input")].map(i => i.value.toLowerCase());
-       if (existing.includes(d.value.toLowerCase())) return;
-         if (group.classList.contains("card-group")) {
- group.appendChild(buildCard(d.type, d.name, d.value, d.icon || "\u2728", true, change.doc.id));
-          } else {
-     group.appendChild(buildChip(d.type, d.name, d.value, true, change.doc.id));
-      }
-      }
+          if (group.classList.contains("card-group")) {
+group.appendChild(buildCard(d.type, d.name, d.value, d.icon || "\u2728", true, change.doc.id));
+        } else {
+   group.appendChild(buildChip(d.type, d.name, d.value, true, change.doc.id));
+     }
+            }
 
             if (change.type === "modified") {
     // update label text and input value for edited options
@@ -98,13 +95,13 @@ document.addEventListener("keydown", function (e) {
 
 async function addOption(btn) {
     const row     = btn.closest(".add-option-row");
-  const inp     = row.querySelector(".add-input");
+    const inp= row.querySelector(".add-input");
     const value   = inp.value.trim();
     if (!value) return;
 
-  const groupId = inp.dataset.group;
+    const groupId = inp.dataset.group;
     const name    = inp.dataset.name;
- const type    = inp.dataset.type;
+    const type    = inp.dataset.type;
     const icon    = inp.dataset.icon || "";
     const group   = document.getElementById(groupId);
 
@@ -112,25 +109,22 @@ async function addOption(btn) {
     const existing = [...group.querySelectorAll("input")].map(i => i.value.toLowerCase());
     if (existing.includes(value.toLowerCase())) {
         inp.value = "";
-   inp.placeholder = "That option already exists!";
+  inp.placeholder = "That option already exists!";
         setTimeout(() => { inp.placeholder = inp.dataset.orig || ""; }, 2000);
         return;
     }
     if (!inp.dataset.orig) inp.dataset.orig = inp.placeholder;
 
-    // Save to Firestore
-    const docRef = await addDoc(optionsCol, { groupId, name, type, value, icon });
-
-    // Render locally
-    if (group.classList.contains("card-group")) {
-     group.appendChild(buildCard(type, name, value, icon || "\u2728", true, docRef.id));
-    } else {
-        group.appendChild(buildChip(type, name, value, true, docRef.id));
+    try {
+   // Save to Firestore only   onSnapshot handles rendering for ALL users including this one
+        await addDoc(optionsCol, { groupId, name, type, value, icon });
+        inp.value = "";
+        inp.placeholder = "Added! Add another...";
+        setTimeout(() => { inp.placeholder = inp.dataset.orig; }, 1800);
+    } catch (err) {
+        alert("Failed to add option. Please check your Firebase config.");
+        console.error(err);
     }
-
-    inp.value = "";
-    inp.placeholder = "Added! Add another...";
-    setTimeout(() => { inp.placeholder = inp.dataset.orig; }, 1800);
 }
 
 // Expose globally for onclick in HTML
@@ -349,7 +343,7 @@ document.getElementById("resultsSubtitle").textContent = "Loading...";
         });
 
         document.getElementById("resultsSubtitle").textContent =
-          total + " response" + (total !== 1 ? "s" : "") + " — updates live";
+          total + " response" + (total !== 1 ? "s" : "") + "   updates live";
 
         renderResults(total);
     });
