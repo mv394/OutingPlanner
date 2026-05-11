@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Team Outing Poll</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<div class="container">
+
+  <!-- POLL PAGE -->
+  <div id="pollPage">
+
+    <div class="header">
+      <div class="header-icon">&#127881;</div>
+      <h1>Team Outing Poll</h1>
+  <p>All questions are on one page. Fill in yours &mdash; and add, edit or remove options for everyone!</p>
+    </div>
+
+    <!-- ACTION BUTTONS -->
+    <div class="action-btns-row">
+<button class="btn-action-add" id="btnAddQuestion">+ Add Question</button>
+      <button class="btn-action-add" id="btnAddPollElement">+ Add Poll Element</button>
+    </div>
+
+    <!-- Add Question Panel -->
+    <div class="inline-panel hidden" id="addQuestionPanel">
+      <h3>+ Add a Question</h3>
+      <input type="text" id="qTitle" class="panel-input" placeholder="Type your question here..." />
+      <div class="panel-footer">
+        <button class="btn-panel-cancel" id="btnCancelQuestion">Cancel</button>
+        <button class="btn-panel-save" id="btnSaveQuestion">Add Question &rarr;</button>
+      </div>
+    </div>
+
+ <!-- Add Poll Element Panel -->
+    <div class="inline-panel hidden" id="addPollElementPanel">
+    <h3>Add Poll Element</h3>
+      <input type="text" id="peTitle" class="panel-input" placeholder="Type your question or label here..." />
+      <div>
+        <label class="panel-label">Element Type</label>
+        <div class="type-selector" id="peTypeSelector">
+          <button class="type-btn active" data-type="checkbox">Checkbox List</button>
+      <button class="type-btn" data-type="radio">Radio List</button>
+<button class="type-btn" data-type="table-checkbox">Vote Table</button>
+          <button class="type-btn" data-type="ranked">Ranked List</button>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <button class="btn-panel-cancel" id="btnCancelPollElement">Cancel</button>
+        <button class="btn-panel-save" id="btnSavePollElement">Add Element &rarr;</button>
+      </div>
+    </div>
+
+    <form id="pollForm">
+      <!-- Static question cards inserted here by app.js -->
+
+      <!-- Dynamic questions (before submit) -->
+   <div id="dynamicQuestionsContainer"></div>
+
+      <!-- Submit -->
+ <div class="submit-row">
+        <button type="submit" class="btn-submit">Submit My Vote</button>
+      </div>
+    </form>
+
+  </div><!-- /pollPage -->
+
+  <!-- THANK YOU -->
+  <div id="thankYouPage" class="full-page hidden">
+    <div class="ty-icon">&#127882;</div>
+    <h2>Thank you!</h2>
+    <p>Your preferences have been recorded.<br/>We'll announce the outing details soon!</p>
+    <div class="ty-btns">
+   <button class="btn-submit" onclick="showResults()">View Poll Results</button>
+      <button class="btn-outline" onclick="resetPoll()">Submit Another Response</button>
+    </div>
+  </div>
+
+  <!-- RESULTS -->
+  <div id="resultsPage" class="full-page hidden">
+    <div class="header">
+      <div class="header-icon">&#128202;</div>
+ <h1>Poll Results</h1>
+      <p id="resultsSubtitle">Loading responses...</p>
+    </div>
+    <div id="resultsContent"></div>
+    <div class="submit-row">
+      <button class="btn-outline" onclick="resetPoll()">Submit Another Response</button>
+    </div>
+  </div>
+
+</div><!-- /container -->
+<script type="module" src="app.js"></script>
+</body>
+</html>
