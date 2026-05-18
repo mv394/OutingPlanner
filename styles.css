@@ -38,6 +38,7 @@ body {
   flex-direction: column;
   gap: 1rem;
   box-shadow: 0 2px 12px rgba(0,0,0,.06);
+  overflow: hidden;
 }
 
 .card h2 {
@@ -85,6 +86,9 @@ textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: .45rem;
+  width: 100%;
+  overflow: hidden;
+  align-items: flex-start;
 }
 
 .chip {
@@ -92,15 +96,19 @@ textarea:focus {
   align-items: center;
   gap: .3rem;
   padding: .42rem .75rem;
-border: 1.5px solid #d0d0d0;
+  border: 1.5px solid #d0d0d0;
   border-radius: 999px;
   cursor: pointer;
   font-size: .85rem;
   font-weight: 500;
   color: #555;
-  transition: all .2s;
+  transition: border-color .2s, color .2s, background .2s;
   user-select: none;
   position: relative;
+  box-sizing: border-box;
+  flex: 0 0 auto;
+  max-width: 100%;
+  justify-content: center;
 }
 
 .chip input { display: none; }
@@ -112,8 +120,10 @@ border: 1.5px solid #d0d0d0;
 }
 
 /* show action buttons only on hover */
-.chip .chip-actions { display: none; gap: .15rem; margin-left: .25rem; }
-.chip:hover .chip-actions { display: inline-flex; }
+.chip-text { word-break: break-word; text-align: center; min-width: 0; }
+.chip .chip-actions { display: inline-flex; gap: .1rem; margin-left: .2rem; flex-shrink: 0; }
+.chip .btn-chip-edit, .chip .btn-chip-delete { color: transparent; transition: color .15s; }
+.chip:hover .btn-chip-edit, .chip:hover .btn-chip-delete { color: #aaa; }
 .chip.selected .chip-actions .btn-chip-edit,
 .chip.selected .chip-actions .btn-chip-delete { color: rgba(255,255,255,.85); }
 
@@ -122,12 +132,14 @@ border: 1.5px solid #d0d0d0;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: .75rem;
+  font-size: .72rem;
   line-height: 1;
-  padding: 1px 2px;
+  padding: 0 1px;
   border-radius: 3px;
   color: #888;
   transition: color .15s, background .15s;
+  width: 1rem;
+  text-align: center;
 }
 .btn-chip-edit:hover   { color: #667eea; background: rgba(102,126,234,.12); }
 .btn-chip-delete:hover { color: #e74c3c; background: rgba(231,76,60,.1); }
@@ -155,7 +167,7 @@ border: 1.5px solid #d0d0d0;
   flex-direction: column;
   align-items: center;
   gap: .3rem;
-  transition: all .2s;
+  transition: border-color .2s, background .2s, box-shadow .2s;
 }
 
 .card-body:hover { border-color: #667eea; background: #f5f4ff; }
@@ -171,14 +183,14 @@ border: 1.5px solid #d0d0d0;
 
 /* card action buttons – appear on hover */
 .card-actions {
-  display: none;
+  display: flex; opacity: 0; pointer-events: none; transition: opacity .15s;
   position: absolute;
   top: .35rem;
   right: .35rem;
   gap: .2rem;
   z-index: 2;
 }
-.card-option:hover .card-actions { display: flex; }
+.card-option:hover .card-actions { opacity: 1; pointer-events: auto; }
 
 .btn-card-edit,
 .btn-card-delete {
@@ -272,7 +284,8 @@ padding: .85rem 2.8rem;
 .result-block h4 { font-size: .88rem; font-weight: 700; color: #4a3fa0; margin-bottom: .65rem; }
 
 .bar-row { display: flex; align-items: center; gap: .6rem; margin-bottom: .4rem; }
-.text-response { font-size: .82rem; color: #333; padding: .3rem 0 .3rem .5rem; border-left: 3px solid #a78bfa; margin-bottom: .4rem; }
+.text-response { font-size: .82rem; color: #333; padding: .3rem 0 .3rem .5rem; border-left: 3px solid #a78bfa; margin-bottom: .4rem; display: flex; justify-content: space-between; align-items: center; }
+.text-count { background: #a78bfa; color: #fff; font-size: .72rem; font-weight: 700; padding: .1rem .45rem; border-radius: 999px; flex-shrink: 0; }
 .bar-label { font-size: .78rem; width: 200px; flex-shrink: 0; color: #333; }
 .bar-track { flex: 1; background: #e0e0e0; border-radius: 999px; height: 10px; overflow: hidden; }
 .bar-fill  { height: 100%; background: linear-gradient(90deg,#667eea,#764ba2); border-radius: 999px; transition: width .6s ease; }
